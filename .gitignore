@@ -1,0 +1,5 @@
+*.csv
+*.bib
+*.h5
+data/
+__pycache__/

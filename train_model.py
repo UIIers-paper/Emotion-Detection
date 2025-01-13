@@ -1,20 +1,11 @@
-import tensorflow as tf
-
-import keras
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D
-from keras.layers import Dense, Activation, Dropout, Flatten
-
-from keras.preprocessing import image
-from keras.preprocessing.image import ImageDataGenerator
-
+from config import *
 import numpy as np
 import matplotlib.pyplot as plt
 
 # Khai bao cac bien
 num_classes = 7  # angry, disgust, fear, happy, sad, surprise, neutral
-batch_size = 256
-epochs = 50
+batch_size = 32
+epochs = 500
 
 # Load du lieu
 with open("data/fer2013.csv") as f:
@@ -34,7 +25,7 @@ for i in range(1, num_of_instances):
         emotion, img, usage = lines[i].split(",")
         val = img.split(" ")
         pixels = np.array(val, 'float32')
-        emotion = keras.utils.to_categorical(emotion, num_classes)
+        emotion = tf.keras.utils.to_categorical(emotion, num_classes)
 
         # Neu usage = "Training" thi dua vao du lieu train
         if 'Training' in usage:
@@ -85,7 +76,7 @@ train_generator = gen.flow(x_train, y_train, batch_size=batch_size)
 # ------------------------------
 
 model.compile(loss='categorical_crossentropy'
-              , optimizer=keras.optimizers.Adam()
+              , optimizer=tf.keras.optimizers.Adam()
               , metrics=['accuracy']
               )
 
